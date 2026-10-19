@@ -1,5 +1,8 @@
 import json
+import os
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
 import unittest
 from restoreproof import scan, compare, validate_manifest
@@ -59,6 +62,50 @@ class IntegrityScenarios(unittest.TestCase):
         expected, errors = scan(self.source)
         observed, errors = scan(self.copy)
         self.assertEqual(compare(expected, observed, errors)['status'], 'verified')
+
+    def run_verify(self, manifest):
+        output = self.base / 'report.json'
+        result = subprocess.run(
+            [sys.executable, str(Path(__file__).with_name('restoreproof.py')),
+             'verify', str(manifest), str(self.copy), '--output', str(output)],
+            capture_output=True, text=True, timeout=3)
+        return result, output
+
+    def test_cli_valid_manifest_creates_matching_report(self):
+        manifest = self.base / 'reference.json'
+        manifest.write_text(json.dumps({'schema': 'restoreproof/v1',
+                                        'files': list(self.expected.values())}))
+        result, output = self.run_verify(manifest)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(output.read_text())['status'], 'verified')
+
+    def test_manifest_special_files_and_symlink_are_refused_without_waiting(self):
+        fifo = self.base / 'manifest.fifo'; os.mkfifo(fifo)
+        normal = self.base / 'reference.json'; normal.write_text('{}')
+        link = self.base / 'manifest-link'; link.symlink_to(normal)
+        for path in [fifo, self.source, link, Path('/dev/zero')]:
+            with self.subTest(path=path):
+                result, output = self.run_verify(path)
+                self.assertEqual(result.returncode, 2)
+                self.assertEqual(json.loads(result.stderr)['status'], 'error')
+                self.assertFalse(output.exists())
+
+    def test_oversized_manifest_does_not_create_report(self):
+        manifest = self.base / 'oversized.json'
+        manifest.write_bytes(b' ' * (8 * 1024 * 1024 + 1))
+        result, output = self.run_verify(manifest)
+        self.assertEqual(result.returncode, 2)
+        self.assertIn('8 MiB', json.loads(result.stderr)['error'])
+        self.assertFalse(output.exists())
+
+    def test_deeply_nested_manifest_returns_clean_error(self):
+        manifest = self.base / 'nested.json'
+        manifest.write_text('[' * 2000 + '0' + ']' * 2000)
+        result, output = self.run_verify(manifest)
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(json.loads(result.stderr)['status'], 'error')
+        self.assertNotIn('Traceback', result.stderr)
+        self.assertFalse(output.exists())
 
 
 if __name__ == '__main__':

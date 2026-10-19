@@ -11,6 +11,23 @@ import unicodedata
 
 SCHEMA = 'restoreproof/v1'
 LIMIT = 10000
+MANIFEST_MAX_BYTES = 8 * 1024 * 1024
+
+
+def read_manifest(path):
+    """Reject special files before reading, and bound bytes on the open handle."""
+    fd = os.open(path, os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0)
+                 | getattr(os, 'O_NONBLOCK', 0))
+    try:
+        if not stat.S_ISREG(os.fstat(fd).st_mode):
+            raise ValueError('Manifest must be a regular file')
+        with os.fdopen(fd, 'rb', closefd=False) as stream:
+            raw = stream.read(MANIFEST_MAX_BYTES + 1)
+        if len(raw) > MANIFEST_MAX_BYTES:
+            raise ValueError('Manifest exceeds 8 MiB')
+        return validate_manifest(json.loads(raw.decode('utf-8')))
+    finally:
+        os.close(fd)
 
 
 def clean_path(value):
@@ -129,10 +146,7 @@ def main():
                 json.dump({'schema': SCHEMA, 'files': list(files.values())}, stream, indent=2)
             print(json.dumps({'status': 'snapshot_created', 'files': len(files)}))
             return 0
-        manifest_path = Path(args.manifest)
-        if manifest_path.stat().st_size > 8 * 1024 * 1024:
-            raise ValueError('Manifest exceeds 8 MiB')
-        expected = validate_manifest(json.loads(manifest_path.read_text(encoding='utf-8')))
+        expected = read_manifest(args.manifest)
         observed, errors = scan(args.folder)
         report = compare(expected, observed, errors)
         if args.output:
@@ -142,7 +156,7 @@ def main():
                 json.dump(report, stream, indent=2)
         print(json.dumps(report, ensure_ascii=False))
         return 0 if report['status'] == 'verified' else 1
-    except (OSError, ValueError, json.JSONDecodeError) as exc:
+    except (OSError, ValueError, json.JSONDecodeError, RecursionError) as exc:
         print(json.dumps({'status': 'error', 'error': str(exc)}), file=sys.stderr)
         return 2
 

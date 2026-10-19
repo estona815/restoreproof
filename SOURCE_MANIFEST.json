@@ -1,8 +1,8 @@
 [
   {
     "path": "README.md",
-    "bytes": 4487,
-    "sha256": "69c97ffe1d1ce9b1d9d79dc531e0133e6c6ca526a927d34ad89c638725028103"
+    "bytes": 4755,
+    "sha256": "9fd5eb3fbfc946fff0d1235f9b7cd4231b157c7087180da9279d0776a5f35c7d"
   },
   {
     "path": "build_standalone.py",
@@ -26,8 +26,8 @@
   },
   {
     "path": "restoreproof.py",
-    "bytes": 7116,
-    "sha256": "909150eeb499f939cc8aa2cbe6b8a7dd24c6629d64b1dc79241bd670b8ed3a90"
+    "bytes": 7626,
+    "sha256": "e2e70b5c481b3185002b10a449ab09b1a198aad0f03e5430fc620853d78a4a18"
   },
   {
     "path": "test_engine.mjs",
@@ -36,8 +36,8 @@
   },
   {
     "path": "test_restoreproof.py",
-    "bytes": 2983,
-    "sha256": "e1f66fabf93120b503e69978e540a6ef06b868f76a46c86366c28cb6ef5cf932"
+    "bytes": 5272,
+    "sha256": "ed611ce15bfde342840dbad5929628d2187dab4bed2a7c2e15f1bb211554c04c"
   },
   {
     "path": "test_standalone.py",

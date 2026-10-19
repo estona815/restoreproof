@@ -29,7 +29,7 @@ Outputs refuse overwrite. Exit 0 = selected bytes match; 1 = differences or inco
 
 ## What is and is not proved
 
-Missing, changed and unexpected paths are separate outcomes; same-size corruption is detected. Evidence includes byte counts and expected/observed SHA-256 values. A file-read error blocks a pass. A manifest is an untrusted input and is validated before use.
+Missing, changed and unexpected paths are separate outcomes; same-size corruption is detected. Evidence includes byte counts and expected/observed SHA-256 values. A file-read error blocks a pass. A manifest is an untrusted input and is validated before use. Manifest input must be a regular file: direct symlinks, devices, directories and FIFOs are refused before reading. The opened file is read with an 8 MiB bound, and oversized or excessively nested JSON returns exit 2 without creating a report.
 
 The reference manifest must already be trusted. If an attacker replaces both the files and the manifest, this tool cannot authenticate them. Byte equality does not prove absence of malware, preservation of permissions/extended attributes, backup independence, cloud durability, hardware health or successful application recovery. Filesystem metadata, empty directories and application dependencies are outside scope. Filename-only inventory is an intentionally weaker comparison, not a claimed replacement for restic or rclone.
 
@@ -38,7 +38,7 @@ The reference manifest must already be trusted. If an attacker replaces both the
 ```sh
 python3 -m unittest -v test_restoreproof.py
 python3 -m unittest -v test_standalone.py
-node test_engine.mjs
+node test_engine.mjs evidence/cli-golden.json
 ```
 
 Synthetic fixtures only. No user media, credentials, external accounts or live backup deletion are involved.
