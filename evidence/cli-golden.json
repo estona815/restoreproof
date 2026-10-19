@@ -1,0 +1,92 @@
+{
+  "manifest": {
+    "schema": "restoreproof/v1",
+    "files": [
+      {
+        "path": "brief.txt",
+        "bytes": 14,
+        "sha256": "5b862aeb19383da88fc76bd03b1aeb0fe4cd8b1bf7028e6c362418b6ebb2b56e"
+      },
+      {
+        "path": "mix.wav",
+        "bytes": 19,
+        "sha256": "582d405b098d5c6540de5df99361d2ddf196f3ffc4e1011b0c9e6b56678f7c3a"
+      },
+      {
+        "path": "release-notes.txt",
+        "bytes": 16,
+        "sha256": "fe1f81590886b714d5afe1347fc4d7da515586373cb4f418b092946c1ad452a1"
+      }
+    ]
+  },
+  "restored": [
+    {
+      "path": "brief.txt",
+      "content": "approved brief"
+    },
+    {
+      "path": "mix.wav",
+      "content": "RIFFsynthetic-Xudio"
+    },
+    {
+      "path": "extra.txt",
+      "content": "extra data"
+    }
+  ],
+  "report": {
+    "schema": "restoreproof-report/v1",
+    "status": "attention",
+    "files": [
+      {
+        "path": "brief.txt",
+        "status": "matched",
+        "expected": {
+          "path": "brief.txt",
+          "bytes": 14,
+          "sha256": "5b862aeb19383da88fc76bd03b1aeb0fe4cd8b1bf7028e6c362418b6ebb2b56e"
+        },
+        "observed": {
+          "path": "brief.txt",
+          "bytes": 14,
+          "sha256": "5b862aeb19383da88fc76bd03b1aeb0fe4cd8b1bf7028e6c362418b6ebb2b56e"
+        }
+      },
+      {
+        "path": "extra.txt",
+        "status": "unexpected",
+        "expected": null,
+        "observed": {
+          "path": "extra.txt",
+          "bytes": 10,
+          "sha256": "6cb5080588f5f84247b1c75103dee1ccc2a65d6013a48d05b635c536a4818552"
+        }
+      },
+      {
+        "path": "mix.wav",
+        "status": "changed",
+        "expected": {
+          "path": "mix.wav",
+          "bytes": 19,
+          "sha256": "582d405b098d5c6540de5df99361d2ddf196f3ffc4e1011b0c9e6b56678f7c3a"
+        },
+        "observed": {
+          "path": "mix.wav",
+          "bytes": 19,
+          "sha256": "5da6d3640c6ded6641465ae662cb9f6943311fe91c15e3e5b7340420c6310c41"
+        }
+      },
+      {
+        "path": "release-notes.txt",
+        "status": "missing",
+        "expected": {
+          "path": "release-notes.txt",
+          "bytes": 16,
+          "sha256": "fe1f81590886b714d5afe1347fc4d7da515586373cb4f418b092946c1ad452a1"
+        },
+        "observed": null
+      }
+    ],
+    "errors": [],
+    "scope": "Byte equality against the provided manifest only. Not authenticity, malware detection, metadata, empty-directory or application recovery verification."
+  }
+}
