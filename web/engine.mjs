@@ -10,7 +10,7 @@ export function validateManifest(data) {
   const seen = new Set();
   return data.files.map(file => {
     const path = cleanPath(file.path);
-    if (seen.has(path) || !Number.isSafeInteger(file.bytes) || file.bytes < 0 || !/^[a-f0-9]{64}$/.test(file.sha256)) throw Error('Manifest contains duplicate paths or invalid file evidence.');
+    if (seen.has(path) || !Number.isSafeInteger(file.bytes) || file.bytes < 0 || typeof file.sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(file.sha256)) throw Error('Manifest contains duplicate paths or invalid file evidence.');
     seen.add(path); return { path, bytes: file.bytes, sha256: file.sha256 };
   });
 }
