@@ -1,0 +1,45 @@
+{
+  "project": "RestoreProof",
+  "checked_date_kst": "2026-10-21",
+  "tested_runtime_source_commit": "4762dc78b9c1d0df4012065aabdeee569f0acaa9",
+  "runtime_source_files_unchanged": true,
+  "method": "Actual embedded browser directory chooser, exported downloads and reset/reimport; no built-in demo buttons. Streaming CLI report comparison.",
+  "fixture_total_bytes": 91,
+  "results": {
+    "real_directory_picker": true,
+    "snapshot_download_reimport": true,
+    "nested_unicode_and_empty_file_verified": true,
+    "browser_manifest_equals_cli_scan": true,
+    "reports": [
+      {
+        "case": "broken",
+        "cli_exit": 1,
+        "browser_equals_cli": true,
+        "status": "attention",
+        "paths": {
+          "draft/meeting.txt": "matched",
+          "extra.txt": "unexpected",
+          "notes/검수😀.txt": "changed",
+          "release.txt": "missing",
+          "zero.txt": "matched"
+        }
+      },
+      {
+        "case": "repaired",
+        "cli_exit": 0,
+        "browser_equals_cli": true,
+        "status": "verified",
+        "paths": {
+          "draft/meeting.txt": "matched",
+          "notes/검수😀.txt": "matched",
+          "release.txt": "matched",
+          "zero.txt": "matched"
+        }
+      }
+    ],
+    "fixtures_unchanged": 12,
+    "browser_console_errors_or_warnings": 0,
+    "scope": "Pinned public sources on localhost with tiny synthetic folders. Not a deployment, file:// validation, malware scan, backup independence or application recovery proof."
+  },
+  "provenance": "Codex created synthetic fixtures and executed QA. Not real-user testing, production deployment, organizer acceptance or award."
+}

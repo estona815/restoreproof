@@ -1,8 +1,8 @@
 [
   {
     "path": "README.md",
-    "bytes": 4755,
-    "sha256": "9fd5eb3fbfc946fff0d1235f9b7cd4231b157c7087180da9279d0776a5f35c7d"
+    "bytes": 5914,
+    "sha256": "f112bf821395bce6a59657348ed926740096d9ccf888e31aa345ac66875fa1bc"
   },
   {
     "path": "build_standalone.py",
@@ -63,5 +63,25 @@
     "path": "web/style.css",
     "bytes": 4688,
     "sha256": "339b9f6b918ce9e320b77738b89dd298bbf9ed1a6d153d2dab73a6b25ff99b70"
+  },
+  {
+    "path": "evidence/folder-picker-20261021/broken-report.json",
+    "bytes": 2009,
+    "sha256": "6fa9c6714f30355375e760efff6c8c6650fc3784f942abad193abcee2c3ec9c5"
+  },
+  {
+    "path": "evidence/folder-picker-20261021/qa-summary.json",
+    "bytes": 1664,
+    "sha256": "dd8ee9fc5bc4f28f4e01ace24e760e222b6f00c435e1547d772ed274a5b4efdb"
+  },
+  {
+    "path": "evidence/folder-picker-20261021/repaired-report.json",
+    "bytes": 1894,
+    "sha256": "651b84d98b95b46386ef112e9585b64bcf7df7141fdb3c55a344641e48571203"
+  },
+  {
+    "path": "evidence/folder-picker-20261021/snapshot.json",
+    "bytes": 636,
+    "sha256": "af3731848351b8deaaea86e0cc56dfc423cb0978b64481ee8adef06c6f26be5a"
   }
 ]

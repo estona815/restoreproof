@@ -43,6 +43,12 @@ node test_engine.mjs evidence/cli-golden.json
 
 Synthetic fixtures only. No user media, credentials, external accounts or live backup deletion are involved.
 
+### Actual folder-picker evidence (2026-10-21)
+
+A separate browser exercise used real directory selections, not the built-in demo buttons. Four synthetic source files included nested folders, a Korean/emoji filename and a zero-byte file. The broken copy produced one same-size changed file, one missing file and one unexpected file. After Reset, the downloaded snapshot was imported and a repaired copy produced four matches. Both downloaded browser reports exactly matched independent streaming CLI reports (exit 1 for differences, exit 0 for matching bytes). All 12 fixture files retained their expected bytes; no console warnings/errors were observed.
+
+The portable evidence is in [`evidence/folder-picker-20261021/qa-summary.json`](evidence/folder-picker-20261021/qa-summary.json), with the downloaded snapshot and both reports. This establishes the selected-byte workflow on the tested embedded desktop browser over localhost. It does not establish direct `file://` execution, filesystem metadata, backup independence, malware absence or application recovery. All fixtures are fictional and total 91 bytes; no user backup or credentials were inspected.
+
 ## Provenance
 
 New prototype authored with Codex assistance on 2026-10-19 for consideration under SafeSpace Hacks. Codex generated implementation, tests and documentation; Image Gen generated a visual reference, not the functioning UI. No user testing, field deployment, time savings or win is claimed. No prior contest project code was copied. Only standard-library/browser APIs are used. The reference image is review material and is not required by the application.
