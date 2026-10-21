@@ -16,4 +16,12 @@ await test('Hidden file never read',async()=>{let read=false;const r=await scanF
 await test('Normalized duplicate and unsafe manifests rejected',async()=>{const f={path:'one.txt',bytes:1,sha256:'a'.repeat(64)};for(const files of [[],[f,f],[{...f,path:'../outside'}],[{...f,path:'/absolute'}],[{...f,bytes:-1}],[{...f,sha256:'not a hash'}]])assert.throws(()=>validateManifest({schema:SCHEMA,files}));});
 await test('XSS filenames remain data',async()=>{const a=await scanFiles([new File(['hello'],'<img onerror=alert(1)>.txt')]);assert.equal(a.files.length,1);assert.equal(a.files[0].path,'<img onerror=alert(1)>.txt');});
 if(process.argv[2]) await test('Python/browser manifest interoperability',async()=>{const golden=JSON.parse(readFileSync(process.argv[2],'utf8'));const expected=validateManifest(golden.manifest);const observed=await scanFiles(golden.restored.map(x=>new File([x.content],x.path)));const report=compare(expected,observed.files,observed.errors);assert.equal(report.status,golden.report.status);assert.deepEqual(report.files,golden.report.files);});
+await test('JSON manifest digest types are rejected without coercion',async()=>{
+  const file={path:'safe.txt',bytes:3,sha256:'a'.repeat(64)};
+  for(const sha256 of [[file.sha256],[[file.sha256]],null,{},true,123]) {
+    const manifest=JSON.parse(JSON.stringify({schema:SCHEMA,files:[{...file,sha256}]}));
+    assert.throws(()=>validateManifest(manifest),/invalid file evidence/);
+  }
+  assert.equal(validateManifest({schema:SCHEMA,files:[file]})[0].sha256,file.sha256);
+});
 console.log(JSON.stringify({suite:'browser_engine',passed:results.length,results},null,2));

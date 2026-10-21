@@ -1,0 +1,25 @@
+{
+  "schema": "restoreproof/v1",
+  "files": [
+    {
+      "path": "draft/meeting.txt",
+      "bytes": 14,
+      "sha256": "5b862aeb19383da88fc76bd03b1aeb0fe4cd8b1bf7028e6c362418b6ebb2b56e"
+    },
+    {
+      "path": "notes/검수😀.txt",
+      "bytes": 4,
+      "sha256": "63c1dd951ffedf6f7fd968ad4efa39b8ed584f162f46e715114ee184f8de9201"
+    },
+    {
+      "path": "release.txt",
+      "bytes": 16,
+      "sha256": "fe1f81590886b714d5afe1347fc4d7da515586373cb4f418b092946c1ad452a1"
+    },
+    {
+      "path": "zero.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
